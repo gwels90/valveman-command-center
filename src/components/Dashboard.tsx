@@ -513,7 +513,7 @@ export default function ValveManCommandCenter() {
   const runInsights = useCallback(async () => {
     setInsightsLoading(true);
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetch("/api/claude", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -657,7 +657,7 @@ export default function ValveManCommandCenter() {
     setAgentLoading(true);
     setAgentResult(null);
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetch("/api/claude", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -678,7 +678,7 @@ export default function ValveManCommandCenter() {
   const requestCalSuggestions = async () => {
     setAiCalLoading(true);
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetch("/api/claude", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
