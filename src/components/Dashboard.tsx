@@ -34,6 +34,7 @@ const TABS = [
   { id: "paid", label: "Paid Search" },
   { id: "email", label: "Email Marketing" },
   { id: "profitability", label: "Channel P&L" },
+  { id: "llm", label: "LLM Visibility" },
   { id: "calendar", label: "Calendar" },
   { id: "time", label: "Time Tracker" },
 ];
@@ -1677,6 +1678,135 @@ export default function ValveManCommandCenter() {
     );
   };
 
+  // ─── LLM VISIBILITY TAB ─────────────────────────────────────────────────
+  const renderLLM = () => (
+    <>
+      <div style={styles.sectionTitle}>LLM Visibility</div>
+      <div style={styles.sectionSub}>Track how ValveMan appears in AI-generated answers across ChatGPT, Claude, Gemini, and Perplexity</div>
+
+      {/* Summary Cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 24 }}>
+        {[
+          { title: "Overall Visibility Score", value: "—", sub: "Composite score across all LLMs", color: COLORS.blue },
+          { title: "Brand Mentions", value: "—", sub: "Total mentions across tracked queries", color: COLORS.green },
+          { title: "Avg Position", value: "—", sub: "When mentioned, average ranking position", color: COLORS.yellow },
+          { title: "Query Coverage", value: "—", sub: "% of tracked queries where ValveMan appears", color: COLORS.redBright },
+        ].map((card, i) => (
+          <div key={i} className="vm-card" style={{ ...styles.card, borderLeft: `3px solid ${card.color}` }}>
+            <div style={styles.cardTitle}>{card.title}</div>
+            <div style={{ fontSize: 36, fontWeight: 900, color: COLORS.textDim }}>{card.value}</div>
+            <div style={{ fontSize: 11, color: COLORS.textDim, marginTop: 6 }}>{card.sub}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* LLM Breakdown */}
+      <div className="vm-card" style={{ ...styles.card, marginBottom: 20 }}>
+        <div style={styles.cardTitle}>Visibility by LLM</div>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>LLM</th>
+              <th style={{ ...styles.th, textAlign: "center" }}>Mentions</th>
+              <th style={{ ...styles.th, textAlign: "center" }}>Avg Position</th>
+              <th style={{ ...styles.th, textAlign: "center" }}>Sentiment</th>
+              <th style={{ ...styles.th, textAlign: "center" }}>Coverage</th>
+              <th style={{ ...styles.th, textAlign: "center" }}>Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            {["ChatGPT", "Claude", "Gemini", "Perplexity"].map(llm => (
+              <tr key={llm}>
+                <td style={styles.td}>
+                  <span style={{ fontWeight: 600, color: COLORS.white }}>{llm}</span>
+                </td>
+                <td style={{ ...styles.td, textAlign: "center", color: COLORS.textDim }}>—</td>
+                <td style={{ ...styles.td, textAlign: "center", color: COLORS.textDim }}>—</td>
+                <td style={{ ...styles.td, textAlign: "center", color: COLORS.textDim }}>—</td>
+                <td style={{ ...styles.td, textAlign: "center", color: COLORS.textDim }}>—</td>
+                <td style={{ ...styles.td, textAlign: "center", color: COLORS.textDim }}>—</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Tracked Queries */}
+      <div className="vm-card" style={{ ...styles.card, marginBottom: 20 }}>
+        <div style={styles.cardTitle}>Tracked Queries</div>
+        <div style={{ padding: 24, textAlign: "center", color: COLORS.textDim, fontSize: 13, border: `1px dashed ${COLORS.border}`, borderRadius: 8 }}>
+          <div style={{ fontSize: 24, marginBottom: 6 }}>🔍</div>
+          <div style={{ fontWeight: 600, color: COLORS.textMuted }}>Awaiting data connection</div>
+          <div style={{ fontSize: 12, marginTop: 4 }}>When your AI visibility tool is connected, tracked queries and their results across LLMs will appear here.</div>
+        </div>
+      </div>
+
+      {/* Competitor Comparison */}
+      <div className="vm-card" style={{ ...styles.card, marginBottom: 20 }}>
+        <div style={styles.cardTitle}>Competitor Comparison</div>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+              <th style={styles.th}>Brand</th>
+              <th style={{ ...styles.th, textAlign: "center" }}>Total Mentions</th>
+              <th style={{ ...styles.th, textAlign: "center" }}>Avg Position</th>
+              <th style={{ ...styles.th, textAlign: "center" }}>Coverage %</th>
+              <th style={{ ...styles.th, textAlign: "center" }}>vs ValveMan</th>
+            </tr>
+          </thead>
+          <tbody>
+            {["ValveMan", "Grainger", "McMaster-Carr", "MSC Industrial", "Global Industrial"].map((brand, i) => (
+              <tr key={brand} style={i === 0 ? { background: `${COLORS.red}11` } : {}}>
+                <td style={{ ...styles.td, fontWeight: i === 0 ? 700 : 400, color: i === 0 ? COLORS.white : COLORS.text }}>
+                  {i === 0 && <span style={{ color: COLORS.redBright, marginRight: 6 }}>●</span>}
+                  {brand}
+                </td>
+                <td style={{ ...styles.td, textAlign: "center", color: COLORS.textDim }}>—</td>
+                <td style={{ ...styles.td, textAlign: "center", color: COLORS.textDim }}>—</td>
+                <td style={{ ...styles.td, textAlign: "center", color: COLORS.textDim }}>—</td>
+                <td style={{ ...styles.td, textAlign: "center", color: COLORS.textDim }}>{i === 0 ? "—" : "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* AI Suggestions for LLM Visibility */}
+      <div className="vm-suggestion-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 20 }}>
+        <div>
+          <div style={{ ...styles.cardTitle, color: COLORS.blue, marginBottom: 16 }}>
+            🤖 What AI Can Do For You
+          </div>
+          {[
+            { title: "Run LLM visibility audit", desc: "Test 50+ product queries across ChatGPT, Claude, Gemini, and Perplexity to baseline current visibility." },
+            { title: "Analyze competitor LLM presence", desc: "Map how often competitors appear in AI answers for your target product queries." },
+            { title: "Generate LLM-optimized content briefs", desc: "Create content structured to be cited by LLMs — FAQ schemas, definitive guides, specification tables." },
+          ].map((s, i) => (
+            <div key={i} className="vm-suggestion" style={{ ...styles.suggestionCard("ai"), transition: "all 0.2s ease" }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: COLORS.white, marginBottom: 4 }}>{s.title}</div>
+              <div style={{ fontSize: 12, color: COLORS.textMuted }}>{s.desc}</div>
+            </div>
+          ))}
+        </div>
+        <div>
+          <div style={{ ...styles.cardTitle, color: COLORS.yellow, marginBottom: 16 }}>
+            👤 CEO Must-Do Actions
+          </div>
+          {[
+            { title: "Define target query list", desc: "Identify the 50-100 product queries where you want ValveMan to appear in AI answers." },
+            { title: "Review LLM content strategy with RiseOpp", desc: "Align SEO agency on creating content that LLMs are more likely to cite." },
+            { title: "Set quarterly LLM visibility targets", desc: "Establish baseline scores and set improvement goals per LLM per quarter." },
+          ].map((s, i) => (
+            <div key={i} className="vm-suggestion" style={{ ...styles.suggestionCard("ceo"), transition: "all 0.2s ease" }}>
+              <div style={{ fontSize: 14, fontWeight: 600, color: COLORS.white, marginBottom: 4 }}>{s.title}</div>
+              <div style={{ fontSize: 12, color: COLORS.textMuted }}>{s.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+
   // ─── AGENT MODAL ───────────────────────────────────────────────────────
   const renderAgentModal = () => {
     if (!agentModal) return null;
@@ -1881,6 +2011,7 @@ export default function ValveManCommandCenter() {
         {activeTab === "paid" && renderPaid()}
         {activeTab === "email" && renderEmail()}
         {activeTab === "profitability" && renderProfitability()}
+        {activeTab === "llm" && renderLLM()}
         {activeTab === "calendar" && renderCalendar()}
         {activeTab === "scorecard" && renderScorecard()}
         {activeTab === "time" && renderTimeTracker()}
